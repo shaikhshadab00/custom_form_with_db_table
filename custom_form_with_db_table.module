@@ -1,0 +1,100 @@
+<?php
+
+/**
+ * @file
+ * Build custom form to store data.
+ * Dashbord to view, delete, and update form data
+ */
+
+ /**
+ * Implements hook_menu().
+ */
+function custom_form_with_db_table_menu() {
+    $items['custom_form_with_db_table/form/%'] = array(
+        'title' => 'Form',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('custom_form_with_db_table_form', 2),
+        'access arguments' => array('access content'),
+        'type' => MENU_CALLBACK,
+        'file' => 'include/custom_form_with_db_table-form.inc',
+        'file path' => drupal_get_path('module', 'custom_form_with_db_table'),
+    );
+    $items['custom_form_with_db_table/dashboard'] = array(
+        'title' => 'Dashboard',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('custom_form_with_db_table_dashboard_form'),
+        'access arguments' => array('access content'),
+        'type' => MENU_CALLBACK,
+        'file' => 'include/custom_form_with_db_table-dashboard.inc',	 // don't forget to add the file and path
+        'file path' => drupal_get_path('module', 'custom_form_with_db_table'),
+    );
+
+    return $items;
+}
+
+/**
+ * Helper function to insert data into
+ * custom_form_with_db_table table
+ * 
+ * @param $fields
+ * table fields
+ */
+function custom_form_with_db_table_insert($fields) {
+  if (!empty($fields) && is_array($fields)) {
+    // Insert data into table
+    db_insert('custom_form_with_db_table')
+      ->fields($fields)
+      ->execute();
+  }
+}
+
+/**
+ * Helper function to update data into
+ * custom_form_with_db_table table
+ * 
+ * @param $fields
+ * table fields
+ * 
+ * @param $id
+ * primary key of the table
+ */
+function custom_form_with_db_table_update($fields, $id) {
+  if (!empty($fields) && is_array($fields) && is_numeric($id)) {
+    // update data into table
+    db_update('custom_form_with_db_table')
+      ->fields($fields)
+      ->condition('id', $id)
+      ->execute();
+  }
+}
+
+/**
+ * Helper function to fetch data from
+ * custom_form_with_db_table table
+ * 
+ * @param $id
+ * primary key of the table
+ */
+function custom_form_with_db_table_fetch($id) {
+  if (is_numeric($id)) {
+    $result = $data = array();
+    // Fetch data from table
+    $result = db_select("custom_form_with_db_table", "cfwdt")
+              ->fields("cfwdt")
+              ->condition("id", $id)
+              ->execute()
+              ->fetchAll();
+
+    foreach($result as $res) {
+      $data['id'] = !empty($res->id) ? $res->id : '';
+      $data['name'] = !empty($res->name) ? $res->name : '';
+      $data['email_id'] = !empty($res->email_id) ? $res->email_id : '';
+      $data['phone_number'] = !empty($res->phone_number) ? $res->phone_number : '';
+      $data['gender'] = !empty($res->gender) ? $res->gender : '';
+      $data['address'] = !empty($res->address) ? $res->address : '';
+    }
+  }
+
+  return $data;
+}
+

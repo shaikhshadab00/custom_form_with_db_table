@@ -1,0 +1,4 @@
+name = Custom Form With DB Table
+description = Provides a custom form with database table for storing values.
+core = 7.x
+package = Custom

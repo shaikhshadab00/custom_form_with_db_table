@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * @file
+ * Build custom Database table store data.
+ */
+
+/**
+ *  Implements hook_schema().
+ */
+function custom_form_with_db_table_schema() {
+  $schema['custom_form_with_db_table'] = array(
+    'description' => 'custom database for form values',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The primary identifier.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'name' => array(
+        'description' => 'Name.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => ''
+      ),
+      'email_id' => array(
+        'description' => 'Email ID.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => ''
+      ),
+      'phone_number' => array(
+        'description' => 'Phone Number.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => ''
+      ),
+      'address' => array(
+        'description' => 'Name.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => TRUE,
+        'default' => ''
+      ),
+      'gender' => array(
+        'description' => 'Name.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => ''
+      ),
+    ),
+    'indexes' => array(
+      'name' => array('name'),
+      'email_id' => array('email_id'),
+      'phone_number' => array('phone_number'),
+    ),
+    'primary key' => array(
+      'id',
+    ),
+  );
+
+  return $schema;
+}
